@@ -1,0 +1,18 @@
+.tab {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.tab:hover {
+  background-color: #f4f4f4;
+  border-bottom: 1px solid #f3f31d;
+}
+
+.selected {
+  z-index: 2;
+  padding: 0.5rem 1rem;
+  background-color: #f4f4f4;
+  border-bottom: 1px solid #f3f31d;
+  cursor: pointer;
+}
