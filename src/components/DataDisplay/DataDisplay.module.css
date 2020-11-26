@@ -1,5 +1,4 @@
 .table {
-  height: 78vh;
   width: 100%;
 }
 
@@ -24,9 +23,15 @@
 }
 
 .total {
-  position: absolute;
-  bottom: 0;
   width: 100%;
   display: flex;
   justify-content: space-around;
+}
+
+.installment {
+  width: 100%;
+  display: flex;
+  margin: 1rem 0;
+  justify-content: center;
+  align-items: center;
 }
