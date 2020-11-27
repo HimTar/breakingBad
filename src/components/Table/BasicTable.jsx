@@ -11,7 +11,6 @@ import Checkbox from "@material-ui/core/Checkbox";
 
 import { makeStyles } from "@material-ui/core/styles";
 
-import styles from "./Table.module.css";
 
 const useStyles = makeStyles({
   container: {
@@ -136,7 +135,7 @@ export default function BasicTable(props) {
                     <input
                       value={id}
                       checked={active.includes(id)}
-                      name="radio"
+                      name={keys[0]}
                       type="radio"
                       onChange={(e) => radioChange(e, id)}
                     />

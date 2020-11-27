@@ -479,6 +479,7 @@ export default function DataDisplay() {
 
   const handleSelected = (data) => {
     setSelectedRows(data);
+    setOpen(false)
   };
 
   const handleTabClicked = (value) => {
