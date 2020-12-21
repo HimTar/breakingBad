@@ -1,0 +1,23 @@
+.container {
+  height: 4rem;
+  display: flex;
+  justify-content: space-between;
+  background-color: white;
+  box-shadow: 20px 2px 25px rgba(0, 0, 0, 0.5);
+}
+
+.logo {
+  margin: auto 1rem;
+  cursor: pointer;
+}
+
+.right {
+  display: flex;
+  list-style-type: none;
+}
+
+.link {
+  color: #464f5a;
+  margin: auto 1rem;
+  cursor: pointer;
+}
