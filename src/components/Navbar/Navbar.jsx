@@ -7,8 +7,7 @@ export default function Navbar() {
   return (
     <div className={styles.container}>
       <h1 className={styles.logo}>
-        {" "}
-        <Link to="/">MockGen</Link>
+        <Link to="/">Breaking Bad</Link>
       </h1>
 
       <ul className={styles.right}>

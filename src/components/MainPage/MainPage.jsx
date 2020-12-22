@@ -1,76 +1,88 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-import DeleteIcon from "@material-ui/icons/Delete";
-import PublishIcon from "@material-ui/icons/Publish";
-import GetAppIcon from "@material-ui/icons/GetApp";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { makeStyles } from "@material-ui/core/styles";
 
-import { openUploadWidget } from "../../Utils/CloudinaryService";
+import CharacterTable from "../CharacterTable/CharacterTable";
+
+import axiosConfig from "../../Utils/axiosConfig";
+import { getAllCharactersURL } from "../../Utils/Constants";
 
 import styles from "./MainPage.module.css";
 
-export default function MainPage() {
-  const [image, setImage] = useState("");
+const useStyles = makeStyles((theme) => ({
+  input: {
+    width: "40%",
+    height: "4rem",
+    borderRadius: "4px",
+    background: "white",
+    boxShadow: "0 0 10px 0 rgb(37, 37, 37)",
+  },
+}));
 
-  const beginUpload = (tag) => {
-    const uploadOptions = {
-      cloudName: "himanshu-cloud",
-      uploadPreset: "upload",
-    };
-    openUploadWidget(uploadOptions, (error, photos) => {
-      if (!error) {
-        setImage(photos[0].public_id);
-      } else {
-        console.log(error);
-      }
-    });
+const MainPage = () => {
+  const [characters, setCharacters] = useState([]);
+  const [filter, setFilter] = useState("Filter");
+  const [name, setName] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  const classes = useStyles();
+
+  useEffect(() => {
+    axiosConfig
+      .get(getAllCharactersURL)
+      .then((res) => {
+        setCharacters(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+  }, []);
+
+  const handleNameChange = (e) => {
+    setName(e.target.value);
   };
 
-  const deleteImage = () => {
-    setImage("");
+  const handleFilterChange = (e) => {
+    setFilter(e.target.value);
   };
-
-  console.log(image);
 
   return (
     <div className={styles.container}>
-      <div className={styles.left}>
-        <div className={styles.upload} onClick={beginUpload}>
-          <PublishIcon />
-        </div>
-        <div className={styles.delete} onClick={deleteImage}>
-          <DeleteIcon />
-        </div>
+      <div className={styles.searchCont}>
+        <input
+          type="text"
+          value={name}
+          onChange={handleNameChange}
+          className={styles.input}
+          placeholder="Search By Name..."
+        />
+
+        <Select
+          value={filter}
+          onChange={handleFilterChange}
+          className={classes.input}
+          label="Filter"
+        >
+          <MenuItem value="Filter">
+            <em>None</em>
+          </MenuItem>
+          <MenuItem value="Breaking Bad">Breaking Bad</MenuItem>
+          <MenuItem value="Better Call Saul">Better Call Saul</MenuItem>
+        </Select>
       </div>
 
-      {image ? (
-        <img
-          alt="upload"
-          src={`https://res.cloudinary.com/himanshu-cloud/image/upload/l_${image},w_600,h_338,g_north_west,x_540,y_363/tv.jpg`}
-          className={styles.image}
-        />
+      {loading ? (
+        <CircularProgress style={{ color: "white", margin: "16rem auto" }} />
       ) : (
-        <img
-          alt="upload"
-          src="https://res.cloudinary.com/himanshu-cloud/image/upload/v1608403021/tv.jpg"
-          className={styles.image}
-        />
+        <CharacterTable data={characters} filter={filter} name={name} />
       )}
-
-      <div className={styles.download}>
-        <button className={styles.downloadButton}>
-          {image ? (
-            <a
-              href={`https://res.cloudinary.com/himanshu-cloud/image/upload/fl_attachment/l_${image},w_600,h_338,g_north_west,x_540,y_363/tv.jpg`}
-            >
-              <GetAppIcon style={{ color: "white" }} />
-            </a>
-          ) : (
-            <a href="/" onClick={(e) => e.preventDefault()}>
-              <GetAppIcon style={{ color: "white" }} />
-            </a>
-          )}
-        </button>
-      </div>
     </div>
   );
-}
+};
+
+export default MainPage;
